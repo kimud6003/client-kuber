@@ -1,9 +1,16 @@
 {
   "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
   "rules": {
-    "max-classes-per-file": false,
     "jsx-no-lambda": false,
-    "no-console": false
+    "max-classes-per-file": true,
+    "no-console":false,
+    "no-debugger":false,
+    "no-null-keyword":false,
+    "no-null-undefined-union": false,
+    "no-non-null-assertion":false ,
+    "object-literal-sort-keys":false,
+    "member-access": false,
+    "no-unused-expression": false
   },
   "linterOptions": {
     "exclude": [

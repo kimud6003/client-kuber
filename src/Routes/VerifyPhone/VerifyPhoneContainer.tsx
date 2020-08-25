@@ -1,6 +1,6 @@
 import React from "react";
 import { Mutation } from "react-apollo";
-import { RouteComponentProps } from "react-router-dom";
+// import { RouteComponentProps } from "react-router-dom";
 import { toast } from "react-toastify";
 import { LOG_USER_IN } from "../../sharedQueries.local";
 import { verifyPhone, verifyPhoneVariables } from "../../types/api";
@@ -9,23 +9,34 @@ import { VERIFY_PHONE } from "./VerifyPhoneQueries";
 
 interface IState {
   verificationKey: string;
-  phoneNumber: string;
+  phoneNumber:string; 
 }
-
-interface IProps extends RouteComponentProps<any> {}
 
 class VerifyMutation extends Mutation<verifyPhone, verifyPhoneVariables> {}
 
-class VerifyPhoneContainer extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
+class VerifyPhoneContainer extends React.Component<any, IState> {
+  constructor(props: any) {
     super(props);
     if (!props.location.state) {
       props.history.push("/");
     }
+    const {
+      location: { state }
+    } = props;
+    let phoneNumber = "";
+    if (state) {
+      phoneNumber = state.phone;
+    } else {
+      phoneNumber = "";
+    }
     this.state = {
-      phoneNumber: props.location.state.phone||"+8201083346003",
+      phoneNumber,
       verificationKey: ""
     };
+    // this.state = {
+      // phoneNumber: "+8201083346003",
+      // verificationKey: ""
+    // };
   }
   public render() {
     const { verificationKey, phoneNumber } = this.state;

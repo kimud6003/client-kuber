@@ -83,7 +83,7 @@ const localStateLink = withClientState({
             }
           }
         });
-        return null;
+        return ;
       },
       logUserOut: (_, __, { cache: appCache }) => {
         localStorage.removeItem("jwt");

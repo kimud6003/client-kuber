@@ -69,7 +69,7 @@ class HomeContainer extends React.Component<IProps, IState> {
     lng: 0,
     price: undefined,
     toAddress:
-      "대구 달서구 신당동 산40-1",
+      "경북대",
     toLat: 0,
     toLng: 0
   };
@@ -272,8 +272,6 @@ class HomeContainer extends React.Component<IProps, IState> {
   public onAddressSubmit = async () => {
     const { toAddress } = this.state;
     const { google } = this.props;
-    console.log(this.props);
-    console.log(google);
     const maps = google.maps;
     const result = await geoCode(toAddress);
     if (result !== false) {
@@ -315,9 +313,9 @@ class HomeContainer extends React.Component<IProps, IState> {
       suppressMarkers: true
     };
     this.directions = new google.maps.DirectionsRenderer(renderOptions);
-    const directionsService: google.maps.DirectionsService = new google.maps.DirectionsService();
-    const to = new google.maps.LatLng(toLat, toLng);
-    const from = new google.maps.LatLng(lat, lng);
+    const directionsService = new google.maps.DirectionsService();
+    const to = new google.maps.LatLng(toLat,toLng);
+    const from = new google.maps.LatLng(lat,lng);
     const directionsOptions: google.maps.DirectionsRequest = {
       destination: to,
       origin: from,
@@ -329,13 +327,13 @@ class HomeContainer extends React.Component<IProps, IState> {
     result: google.maps.DirectionsResult,
     status: google.maps.DirectionsStatus
   ) => {
-    if (status === google.maps.DirectionsStatus.OK) {
+    console.log(status);
+    if (status===google.maps.DirectionsStatus.OK) {
       const { routes } = result;
       const {
         distance: { text: distance },
         duration: { text: duration }
       } = routes[0].legs[0];
-      this.directions.setDirections(result);
       this.directions.setMap(this.map);
       this.setState(
         {
@@ -345,7 +343,7 @@ class HomeContainer extends React.Component<IProps, IState> {
         this.setPrice
       );
     } else {
-      toast.error("There is no route there, you have to swim ");
+      toast.error("There is no route there ");
     }
   };
   public setPrice = () => {

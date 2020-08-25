@@ -1,6 +1,6 @@
 import React from "react";
 import { Mutation } from "react-apollo";
-import { RouteComponentProps } from "react-router-dom";
+// import { RouteComponentProps } from "react-router-dom";
 import { toast } from "react-toastify";
 import { GET_PLACES } from "../../sharedQueries";
 import { addPlace, addPlaceVariables } from "../../types/api";
@@ -10,25 +10,45 @@ import { ADD_PLACE } from "./AddPlaceQuery";
 interface IState {
   address: string;
   name: string;
-  lat: number;
-  lng: number;
+  lat?: number;
+  lng?: number;
 }
 
-interface IProps extends RouteComponentProps<any> {}
 
 class AddPlaceQuery extends Mutation<addPlace, addPlaceVariables> {}
 
-class AddPlaceContainer extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
+class AddPlaceContainer extends React.Component<any, IState> {
+  constructor(props: any) {
     super(props);
-    const { location:  {state={}}={} } = props;
-    this.state = {
-      address: state.address||"",
-      lat: state.lat||0,
-      lng: state.lng||0,
-      name: ""
-    };
+    if (!props.location.state) {
+      this.state = {
+        address: "",
+        name: ""
+      };
+    } else {
+      const {
+        location: {
+          state: { address, lat, lng }
+        }
+      } = props;
+      this.state = {
+        address,
+        name: "",
+        lat,
+        lng
+      };
+    }
   }
+  // constructor(props: any) {
+    // super(props);
+    // const { location:{} } = props;
+    // this.state = {
+    //   address:"대구광역시 북구 산격3동 1421-19",
+    //   lat:35.891665, 
+    //   lng:128.605520,
+    //   name: ""
+    // };
+  // }
   public render() {
     const { address, name, lat, lng } = this.state;
     const { history } = this.props;
