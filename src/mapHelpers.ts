@@ -14,7 +14,7 @@ export const geoCode = async (address: string) => {
         location: { lat, lng }
       }
     } = firstPlace;
-    return { formatted_address, lat, lng };
+    return { lat, lng ,formatted_address};
   } else {
     toast.error(data.error_message);
     return false;

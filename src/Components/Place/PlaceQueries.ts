@@ -7,4 +7,4 @@ export const EDIT_PLACE = gql`
       error
     }
   }
-`;
+ `; 

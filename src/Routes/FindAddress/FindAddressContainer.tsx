@@ -98,8 +98,8 @@ class FindAddressContainer extends React.Component<IProps, IState> {
   public onInputBlur = async () => {
     const { address } = this.state;
     const result = await geoCode(address);
-    if (result !== false) {
-      const { lat, lng, formatted_address: formatedAddress } = result;
+    if (result!== false ) {
+      const { lat, lng, formatted_address: formatedAddress} = result;
       this.setState({
         address: formatedAddress,
         lat,

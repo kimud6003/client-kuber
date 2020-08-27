@@ -1,4 +1,5 @@
 import { SubscribeToMoreOptions } from "apollo-client";
+import throttle from "lodash.throttle";
 import React from "react";
 import { graphql, Mutation, MutationFn, Query } from "react-apollo";
 import ReactDOM from "react-dom";
@@ -36,7 +37,7 @@ interface IState {
   lng: number;
   distance: string;
   duration?: string;
-  price?: string;
+  price?: number;
   fromAddress: string;
   isDriving: boolean;
 }
@@ -69,7 +70,7 @@ class HomeContainer extends React.Component<IProps, IState> {
     lng: 0,
     price: undefined,
     toAddress:
-      "경북대",
+      "Asagaya",
     toLat: 0,
     toLng: 0
   };
@@ -82,6 +83,11 @@ class HomeContainer extends React.Component<IProps, IState> {
     navigator.geolocation.getCurrentPosition(
       this.handleGeoSucces,
       this.handleGeoError
+    );
+    window.addEventListener(
+      "deviceorientation",
+      throttle(this.handleRotation, 5000, { trailing: true, leading: true }),
+      true
     );
   }
   public render() {
@@ -100,11 +106,11 @@ class HomeContainer extends React.Component<IProps, IState> {
     } = this.state;
     return (
       <ProfileQuery query={USER_PROFILE} onCompleted={this.handleProfileQuery}>
-        {({ data, loading }) => (
+        {({ data, loading:profileLoading }) => (
           <NearbyQueries
             query={GET_NEARBY_DRIVERS}
+            pollInterval={1000}
             skip={isDriving}
-            pollInterval={5000}
             onCompleted={this.handleNearbyDrivers}
           >
             {() => (
@@ -126,10 +132,13 @@ class HomeContainer extends React.Component<IProps, IState> {
                 {requestRideFn => (
                   <GetNearbyRides query={GET_NEARBY_RIDE} skip={!isDriving}>
                     {({ subscribeToMore, data: nearbyRide }) => {
+                      console.log(isDriving);
                       const rideSubscriptionOptions: SubscribeToMoreOptions = {
                         document: SUBSCRIBE_NEARBY_RIDES,
                         updateQuery: (prev, { subscriptionData }) => {
+                            console.log(subscriptionData);
                           if (!subscriptionData.data) {
+                            console.log(subscriptionData);
                             return prev;
                           }
                           const newObject = Object.assign({}, prev, {
@@ -151,17 +160,17 @@ class HomeContainer extends React.Component<IProps, IState> {
                         >
                           {acceptRideFn => (
                             <HomePresenter
-                              loading={loading}
+                              loading={profileLoading}
                               isMenuOpen={isMenuOpen}
                               toggleMenu={this.toggleMenu}
                               mapRef={this.mapRef}
                               toAddress={toAddress}
                               onInputChange={this.onInputChange}
+                              onAddressSubmit={this.onAddressSubmit}
                               price={price}
                               data={data}
-                              onAddressSubmit={this.onAddressSubmit}
-                              requestRideFn={requestRideFn}
                               nearbyRide={nearbyRide}
+                              requestRideFn={requestRideFn}
                               acceptRideFn={acceptRideFn}
                             />
                           )}
@@ -301,6 +310,16 @@ class HomeContainer extends React.Component<IProps, IState> {
       );
     }
   };
+  public handleRotation = (event: DeviceOrientationEvent) => {
+    // const { alpha } = event;
+    // const { reportLocation } = this.props;
+    // reportLocation({
+    //   variables: {
+    //     lastOrientation: alpha
+    //   }
+    // });
+  };
+
   public createPath = () => {
     const { toLat, toLng, lat, lng } = this.state;
     if (this.directions) {
@@ -313,9 +332,9 @@ class HomeContainer extends React.Component<IProps, IState> {
       suppressMarkers: true
     };
     this.directions = new google.maps.DirectionsRenderer(renderOptions);
-    const directionsService = new google.maps.DirectionsService();
-    const to = new google.maps.LatLng(toLat,toLng);
-    const from = new google.maps.LatLng(lat,lng);
+    const directionsService: google.maps.DirectionsService = new google.maps.DirectionsService();
+    const to = new google.maps.LatLng(toLat, toLng);
+    const from = new google.maps.LatLng(lat, lng);
     const directionsOptions: google.maps.DirectionsRequest = {
       destination: to,
       origin: from,
@@ -327,13 +346,13 @@ class HomeContainer extends React.Component<IProps, IState> {
     result: google.maps.DirectionsResult,
     status: google.maps.DirectionsStatus
   ) => {
-    console.log(status);
-    if (status===google.maps.DirectionsStatus.OK) {
+    if (status === google.maps.DirectionsStatus.OK) {
       const { routes } = result;
       const {
         distance: { text: distance },
         duration: { text: duration }
       } = routes[0].legs[0];
+      this.directions.setDirections(result);
       this.directions.setMap(this.map);
       this.setState(
         {
@@ -343,14 +362,15 @@ class HomeContainer extends React.Component<IProps, IState> {
         this.setPrice
       );
     } else {
-      toast.error("There is no route there ");
+      toast.error("자동차로 갈수 없거나, 구글맵 지원X ");
     }
   };
   public setPrice = () => {
     const { distance } = this.state;
     if (distance) {
+      const floatPrice = parseFloat(distance.replace(",", "")) * 3;
       this.setState({
-        price: Number(parseFloat(distance.replace(",", "")) * 3).toFixed(2)
+        price:Number(floatPrice.toFixed(2)) 
       });
     }
   };
@@ -375,7 +395,6 @@ class HomeContainer extends React.Component<IProps, IState> {
                 lat: driver.lastLat,
                 lng: driver.lastLng
               });
-              exisitingDriver.setMap(this.map);
             } else {
               const markerOptions: google.maps.MarkerOptions = {
                 icon: {
@@ -406,6 +425,8 @@ class HomeContainer extends React.Component<IProps, IState> {
       toast.success("Drive requested, finding a driver");
       history.push(`/ride/${RequestRide.ride!.id}`);
     } else {
+      console.log("시발");
+      console.log(RequestRide);
       toast.error(RequestRide.error);
     }
   };
@@ -424,6 +445,7 @@ class HomeContainer extends React.Component<IProps, IState> {
     const { history } = this.props;
     const { UpdateRideStatus } = data;
     if (UpdateRideStatus.ok) {
+      console.log(UpdateRideStatus.ok);
       history.push(`/ride/${UpdateRideStatus.rideId}`);
     }
   };

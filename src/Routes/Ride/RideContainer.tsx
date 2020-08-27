@@ -30,12 +30,14 @@ class RideContainer extends React.Component<IProps> {
     const {
       match: {
         params: { rideId }
-      }
+      },
+      history
     } = this.props;
+    if(!rideId || !parseInt(rideId, 10)) { history.push('/') }
     return (
       <ProfileQuery query={USER_PROFILE}>
         {({ data: userData }) => (
-          <RideQuery query={GET_RIDE} variables={{ rideId }}>
+          <RideQuery query={GET_RIDE} variables={{rideId: parseInt(rideId, 10) }}>
             {({ data, loading, subscribeToMore }) => {
               const subscribeOptions: SubscribeToMoreOptions = {
                 document: RIDE_SUBSCRIPTION,

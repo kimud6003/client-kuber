@@ -42,6 +42,7 @@ const Data = styled.span`
 
 const Img = styled.img`
   border-radius: 50%;
+  width:40px;
   margin-right: 20px;
 `;
 

@@ -21,21 +21,21 @@ class PlaceContainer extends React.Component<IProps> {
       <FavMutation
         mutation={EDIT_PLACE}
         variables={{
-          isFav: !fav,
-          placeId: id
+          placeId: id,
+          isFav: !fav
         }}
         refetchQueries={[{ query: GET_PLACES }]}
       >
         {editPlaceFn => (
           <PlacePresenter
-            onStarPress={editPlaceFn}
+            onToggleStar={editPlaceFn}
             fav={fav}
             name={name}
             address={address}
           />
         )}
       </FavMutation>
-    );
+    )
   }
 }
 

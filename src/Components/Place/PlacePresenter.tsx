@@ -32,17 +32,12 @@ interface IProps {
   fav: boolean;
   name: string;
   address: string;
-  onStarPress: MutationFn;
+  onToggleStar: MutationFn;
 }
 
-const PlacePresenter: React.SFC<IProps> = ({
-  onStarPress,
-  fav,
-  name,
-  address
-}) => (
+const PlacePresenter: React.SFC<IProps> = ({ onToggleStar, fav, name, address }) => (
   <Place>
-    <Icon onClick={onStarPress as any}>{fav ? "★" : "✩"}</Icon>
+    <Icon onClick={() => onToggleStar()}>{fav ? "★" : "✩" }</Icon>
     <Container>
       <Name>{name}</Name>
       <Address>{address}</Address>

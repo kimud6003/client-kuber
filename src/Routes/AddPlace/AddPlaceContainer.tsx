@@ -1,6 +1,5 @@
 import React from "react";
 import { Mutation } from "react-apollo";
-// import { RouteComponentProps } from "react-router-dom";
 import { toast } from "react-toastify";
 import { GET_PLACES } from "../../sharedQueries";
 import { addPlace, addPlaceVariables } from "../../types/api";
@@ -10,8 +9,8 @@ import { ADD_PLACE } from "./AddPlaceQuery";
 interface IState {
   address: string;
   name: string;
-  lat?: number;
-  lng?: number;
+  lat: number;
+  lng: number;
 }
 
 
@@ -22,8 +21,10 @@ class AddPlaceContainer extends React.Component<any, IState> {
     super(props);
     if (!props.location.state) {
       this.state = {
+        name: "",
         address: "",
-        name: ""
+        lat:0,
+        lng:0
       };
     } else {
       const {
@@ -32,23 +33,13 @@ class AddPlaceContainer extends React.Component<any, IState> {
         }
       } = props;
       this.state = {
-        address,
         name: "",
+        address,
         lat,
         lng
       };
     }
   }
-  // constructor(props: any) {
-    // super(props);
-    // const { location:{} } = props;
-    // this.state = {
-    //   address:"대구광역시 북구 산격3동 1421-19",
-    //   lat:35.891665, 
-    //   lng:128.605520,
-    //   name: ""
-    // };
-  // }
   public render() {
     const { address, name, lat, lng } = this.state;
     const { history } = this.props;

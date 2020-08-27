@@ -1,7 +1,7 @@
 import { gql } from "apollo-boost";
 
 export const GET_RIDE = gql`
-  query getRide($rideId: Int!) {
+query getRide($rideId: Int! ) {
     GetRide(rideId: $rideId) {
       ok
       error
