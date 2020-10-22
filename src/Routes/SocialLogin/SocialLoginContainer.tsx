@@ -15,7 +15,6 @@ class LoginMutation extends Mutation<
 interface IState {
   firstName: string;
   lastName: string;
-  email?: string;
   fbId: string;
 }
 
@@ -23,12 +22,26 @@ interface IProps extends RouteComponentProps<any> {}
 
 class SocialLoginContainer extends React.Component<IProps, IState> {
   public state = {
-    email: "",
     fbId: "",
     firstName: "",
     lastName: ""
   };
   public facebookMutation: MutationFn;
+  public loginCallback = response => {
+    const { name, first_name, last_name, id, accessToken } = response;
+    if (accessToken) {
+      toast.success(`반가워요 ${name}!`);
+      this.facebookMutation({
+        variables: {
+          fbId: id,
+          firstName: first_name,
+          lastName: last_name
+        }
+      });
+    } else {
+      toast.error("로그인 할수없네요");
+    }
+  };
   public render() {
     return (
       <Mutation mutation={LOG_USER_IN}>
@@ -60,22 +73,7 @@ class SocialLoginContainer extends React.Component<IProps, IState> {
     );
   }
 
-  public loginCallback = response => {
-    const { name, first_name, last_name, email, id, accessToken } = response;
-    if (accessToken) {
-      toast.success(`Welcome ${name}!`);
-      this.facebookMutation({
-        variables: {
-          email,
-          fbId: id,
-          firstName: first_name,
-          lastName: last_name
-        }
-      });
-    } else {
-      toast.error("Could not log you in 😔");
-    }
-  };
+ 
 }
 
 export default SocialLoginContainer;

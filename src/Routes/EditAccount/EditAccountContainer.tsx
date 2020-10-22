@@ -15,7 +15,6 @@ import { UPDATE_PROFILE } from "./EditAccountQueries";
 interface IState {
   firstName: string;
   lastName: string;
-  email: string;
   profilePhoto: string;
   uploading: boolean;
 }
@@ -31,14 +30,13 @@ class ProfileQuery extends Query<userProfile> {}
 
 class EditAccountContainer extends React.Component<IProps, IState> {
   public state = {
-    email: "",
     firstName: "",
     lastName: "",
     profilePhoto: "",
     uploading: false
   };
   public render() {
-    const { email, firstName, lastName, profilePhoto, uploading } = this.state;
+    const { firstName, lastName, profilePhoto, uploading } = this.state;
     return (
       <ProfileQuery
         query={USER_PROFILE}
@@ -58,7 +56,6 @@ class EditAccountContainer extends React.Component<IProps, IState> {
               }
             }}
             variables={{
-              email,
               firstName,
               lastName,
               profilePhoto
@@ -66,7 +63,6 @@ class EditAccountContainer extends React.Component<IProps, IState> {
           >
             {(updateProfileFn, { loading }) => (
               <EditAccountPresenter
-                email={email}
                 firstName={firstName}
                 lastName={lastName}
                 profilePhoto={profilePhoto}
@@ -120,9 +116,8 @@ class EditAccountContainer extends React.Component<IProps, IState> {
         GetMyProfile: { user }
       } = data;
       if (user !== null) {
-        const { firstName, lastName, email, profilePhoto } = user;
+        const { firstName, lastName, profilePhoto } = user;
         this.setState({
-          email,
           firstName,
           lastName,
           profilePhoto,

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { toast } from "react-toastify";
 import { MAPS_KEY } from "./keys";
 
 export const geoCode = async (address: string) => {
@@ -16,7 +15,6 @@ export const geoCode = async (address: string) => {
     } = firstPlace;
     return { lat, lng ,formatted_address};
   } else {
-    toast.error(data.error_message);
     return false;
   }
 };
@@ -33,7 +31,6 @@ export const reverseGeoCode = async (lat: number, lng: number) => {
     const address = firstPlace.formatted_address;
     return address;
   } else {
-    toast.error(data.error_message);
     return false;
   }
 };

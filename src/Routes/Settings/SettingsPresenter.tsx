@@ -67,13 +67,11 @@ const SettingsPresenter: React.SFC<IProps> = ({
         {!userDataLoading &&
           user &&
           user.profilePhoto &&
-          user.email &&
           user.fullName && (
             <React.Fragment>
               <Image src={user.profilePhoto} />
               <Keys>
                 <Key>{user.fullName}</Key>
-                <Key>{user.email}</Key>
               </Keys>
             </React.Fragment>
           )}
@@ -89,8 +87,8 @@ const SettingsPresenter: React.SFC<IProps> = ({
             address={place!.address}
           />
         ))}
-      <SLink to={"/places"}>Go to Places</SLink>
-      <FakeLink onClick={logUserOut as any}>Log Out</FakeLink>
+      <SLink to={"/places"}>장소로 이동</SLink>
+      <FakeLink onClick={logUserOut as any}>로그아웃</FakeLink>
     </Container>
   </React.Fragment>
 );

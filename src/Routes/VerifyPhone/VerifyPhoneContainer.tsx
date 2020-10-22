@@ -31,12 +31,8 @@ class VerifyPhoneContainer extends React.Component<any, IState> {
     }
     this.state = {
       phoneNumber,
-      verificationKey: ""
+      verificationKey: "",
     };
-    // this.state = {
-      // phoneNumber: "+8201083346003",
-      // verificationKey: ""
-    // };
   }
   public render() {
     const { verificationKey, phoneNumber } = this.state;
@@ -52,7 +48,6 @@ class VerifyPhoneContainer extends React.Component<any, IState> {
             onCompleted={data => {
               const { CompletePhoneVerification } = data;
               if (CompletePhoneVerification.ok) {
-                 console.log(CompletePhoneVerification);
                 if (CompletePhoneVerification.token) {
                   logUserIn({
                     variables: {
@@ -60,7 +55,16 @@ class VerifyPhoneContainer extends React.Component<any, IState> {
                     }
                   });
                 }
-                toast.success("You're verified, loggin in now");
+                toast.success("인증 되었습니다.");
+                toast.info('메뉴에서 이름을 설정 해주세요', {
+                  position: "top-center",
+                  autoClose: false,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  });
               } else {
                 toast.error(CompletePhoneVerification.error);
               }

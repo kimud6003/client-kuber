@@ -28,8 +28,8 @@ class FindAddressContainer extends React.Component<IProps, IState> {
   }
   public componentDidMount() {
     navigator.geolocation.getCurrentPosition(
-      this.handleGeoSucces,
-      this.handleGeoError
+      this.Geosuccess,
+      this.Geoerror
     );
   }
   public render() {
@@ -44,21 +44,7 @@ class FindAddressContainer extends React.Component<IProps, IState> {
       />
     );
   }
-  public handleGeoSucces: PositionCallback = (positon: Position) => {
-    const {
-      coords: { latitude, longitude }
-    } = positon;
-    this.setState({
-      lat: latitude,
-      lng: longitude
-    });
-    this.loadMap(latitude, longitude);
-    this.reverseGeocodeAddress(latitude, longitude);
-  };
-  public handleGeoError: PositionErrorCallback = () => {
-    console.log("No location");
-  };
-  public loadMap = (lat, lng) => {
+  public LoadMap = (lat, lng) => {
     const { google } = this.props;
     const maps = google.maps;
     const mapNode = ReactDOM.findDOMNode(this.mapRef.current);
@@ -72,9 +58,24 @@ class FindAddressContainer extends React.Component<IProps, IState> {
       zoom: 11
     };
     this.map = new maps.Map(mapNode, mapConfig);
-    this.map.addListener("dragend", this.handleDragEnd);
+    this.map.addListener("dragend", this.Drag);
   };
-  public handleDragEnd = () => {
+
+  public Geosuccess: PositionCallback = (positon: Position) => {
+    const {
+      coords: { latitude, longitude }
+    } = positon;
+    this.setState({
+      lat: latitude,
+      lng: longitude
+    });
+    this.LoadMap(latitude, longitude);
+    this.Geocodeaddress(latitude, longitude);
+  };
+  public Geoerror: PositionErrorCallback = () => {
+    console.log("No location");
+  };
+    public Drag = () => {
     const newCenter = this.map.getCenter();
     const lat = newCenter.lat();
     const lng = newCenter.lng();
@@ -85,7 +86,7 @@ class FindAddressContainer extends React.Component<IProps, IState> {
       lat,
       lng
     });
-    this.reverseGeocodeAddress(lat, lng);
+    this.Geocodeaddress(lat, lng);
   };
   public onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
@@ -108,7 +109,7 @@ class FindAddressContainer extends React.Component<IProps, IState> {
       this.map.panTo({ lat, lng });
     }
   };
-  public reverseGeocodeAddress = async (lat: number, lng: number) => {
+  public Geocodeaddress = async (lat: number, lng: number) => {
     const reversedAddress = await reverseGeoCode(lat, lng);
     if (reversedAddress !== false) {
       this.setState({

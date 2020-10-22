@@ -39,7 +39,7 @@ const ChatPresenter: React.SFC<IProps> = ({
   onSubmit
 }) => (
   <Container>
-    <Header title={"Chat"} />
+    <Header title={"Chat"} backTo={`/`} />
     {!loading &&
       chat &&
       user && (

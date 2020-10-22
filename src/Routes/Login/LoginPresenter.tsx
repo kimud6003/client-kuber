@@ -9,18 +9,21 @@ const Container = styled.div`
 `;
 
 const Header = styled.header`
-  height: 70%;
-  background: linear-gradient(rgba(0, 153, 196, 0.5), rgba(0, 153, 196, 0.4)),
-    url(${bgImage});
+  height: 65%;
+  max-width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.0)),
+    url(${bgImage});
 `;
 
 const Logo = styled.div`
-  width: 110px;
-  height: 110px;
-  background-color: white;
+  width: 155px;
+  height: 155px;
+  background-color:#4267B2;
+  color:white;
+  border-radius:50%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -70,25 +73,25 @@ interface IProps extends RouteComponentProps<any> {}
 const OutHomePresenter: React.SFC<IProps> = () => (
   <Container>
     <Helmet>
-      <title>Login | Nuber</title>
+      <title>택시</title>
     </Helmet>
     <Header>
       <Logo>
-        <Title>Nuber</Title>
+        <Title>internseer</Title>
       </Logo>
     </Header>
     <Footer>
       <Link to={"/phone-login"}>
         <PhoneLogin>
-          <Subtitle>Get moving with Nuber</Subtitle>
+          <Subtitle>고객을 찾아봅시다</Subtitle>
           <FakeInput>
-            🇰🇷 +82 <Grey>Enter your mobile number</Grey>
+            🇰🇷 +82 <Grey>핸드폰 번호 입력</Grey>
           </FakeInput>
         </PhoneLogin>
       </Link>
       <Link to={"/social-login"}>
         <SocialLogin>
-          <SocialLink>Or connect with social</SocialLink>
+          <SocialLink>페이스북 로그인</SocialLink>
         </SocialLogin>
       </Link>
     </Footer>

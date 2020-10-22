@@ -6,7 +6,6 @@ import { HttpLink } from "apollo-link-http";
 import { withClientState } from "apollo-link-state";
 import { WebSocketLink } from "apollo-link-ws";
 import { getMainDefinition } from "apollo-utilities";
-import { toast } from "react-toastify";
 
 
 const getToken = () => {
@@ -14,7 +13,7 @@ const getToken = () => {
   if (token) {
     return token;
   } else {
-    return "";
+    return "뭐지";
   }
 };
 
@@ -23,7 +22,7 @@ const cache = new InMemoryCache();
 const authMiddleware = new ApolloLink((operation: Operation, forward: any) => {
   operation.setContext({
     headers: {
-      "X-JWT": getToken()
+      "JWT": getToken()
     }
   });
   return forward(operation);
@@ -36,7 +35,7 @@ const httpLink = new HttpLink({
 const wsLink = new WebSocketLink({
   options: {
     connectionParams: {
-      "X-JWT": getToken()
+      "JWT": getToken()
     },
     reconnect: true
   },
@@ -55,11 +54,11 @@ const combinedLinks = split(
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.map(({ message }) => {
-      toast.error(`Unexpected error: ${message}`);
+      console.log(`Unexpected error: ${message}`);
     });
   }
   if (networkError) {
-    toast.error(`Network error: ${networkError}`);
+    console.log(`Network error: ${networkError}`);
   }
 });
 
@@ -68,13 +67,13 @@ const localStateLink = withClientState({
   defaults: {
     auth: {
       __typename: "Auth",
-      isLoggedIn: Boolean(localStorage.getItem("jwt"))
+      isLoggedIn: Boolean(localStorage.getItem("JWT"))
     }
   },
   resolvers: {
     Mutation: {
       logUserIn: (_, { token }, { cache: appCache }) => {
-        localStorage.setItem("jwt", token);
+        localStorage.setItem("JWT", token);
         appCache.writeData({
           data: {
             auth: {
@@ -86,7 +85,7 @@ const localStateLink = withClientState({
         return ;
       },
       logUserOut: (_, __, { cache: appCache }) => {
-        localStorage.removeItem("jwt");
+        localStorage.removeItem("JWT");
         appCache.writeData({
           data: {
             auth: {

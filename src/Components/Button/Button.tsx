@@ -3,7 +3,8 @@ import styled from "../../typed-components";
 
 const Container = styled.input`
   width: 100%;
-  background-color: black;
+  background-color:#4267B2;
+  border-radius:20px 20px 20px 20px;
   color: white;
   text-transform: uppercase;
   padding: 15px 0;

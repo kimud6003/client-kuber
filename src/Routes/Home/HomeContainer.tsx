@@ -70,7 +70,7 @@ class HomeContainer extends React.Component<IProps, IState> {
     lng: 0,
     price: undefined,
     toAddress:
-      "Asagaya",
+      "Google",
     toLat: 0,
     toLng: 0
   };
@@ -136,9 +136,7 @@ class HomeContainer extends React.Component<IProps, IState> {
                       const rideSubscriptionOptions: SubscribeToMoreOptions = {
                         document: SUBSCRIBE_NEARBY_RIDES,
                         updateQuery: (prev, { subscriptionData }) => {
-                            console.log(subscriptionData);
                           if (!subscriptionData.data) {
-                            console.log(subscriptionData);
                             return prev;
                           }
                           const newObject = Object.assign({}, prev, {
@@ -422,12 +420,10 @@ class HomeContainer extends React.Component<IProps, IState> {
     const { history } = this.props;
     const { RequestRide } = data;
     if (RequestRide.ok) {
-      toast.success("Drive requested, finding a driver");
+      toast.success("운전사를 찾아볼게요");
       history.push(`/ride/${RequestRide.ride!.id}`);
     } else {
-      console.log("시발");
-      console.log(RequestRide);
-      toast.error(RequestRide.error);
+      toast.error("운전자 요청 에러 발생");
     }
   };
   public handleProfileQuery = (data: userProfile) => {
@@ -445,7 +441,6 @@ class HomeContainer extends React.Component<IProps, IState> {
     const { history } = this.props;
     const { UpdateRideStatus } = data;
     if (UpdateRideStatus.ok) {
-      console.log(UpdateRideStatus.ok);
       history.push(`/ride/${UpdateRideStatus.rideId}`);
     }
   };

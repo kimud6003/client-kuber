@@ -16,7 +16,7 @@ const MenuButton = styled.button`
   padding: 10px;
   position: absolute;
   top: 10px;
-  left: 10px;
+  left: 3px;
   text-align: center;
   font-weight: 800;
   border: 0;
@@ -45,7 +45,7 @@ const ExtendedButton = styled(Button)`
 `;
 
 const RequestButton = ExtendedButton.extend`
-  bottom: 250px;
+  bottom: 150px;
 `;
 
 interface IProps {
@@ -106,7 +106,7 @@ const HomePresenter: React.SFC<IProps> = ({
             <ExtendedButton
               onClick={onAddressSubmit}
               disabled={toAddress === ""}
-              value={price ? "Change address" : "Pick Address"}
+              value={price ? "목적지 변경" : "목적지 설정"}
             />
           </React.Fragment>
         )}
@@ -114,7 +114,7 @@ const HomePresenter: React.SFC<IProps> = ({
         <RequestButton
           onClick={requestRideFn}
           disabled={toAddress === ""}
-          value={`Request Ride ($${price})`}
+          value={`요청하시겠습니까?(${price}천원)`}
         />
       )}
       {ride && (

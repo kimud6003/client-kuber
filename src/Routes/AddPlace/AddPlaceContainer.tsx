@@ -40,6 +40,16 @@ class AddPlaceContainer extends React.Component<any, IState> {
       };
     }
   }
+  public onInputChange: React.ChangeEventHandler<
+    HTMLInputElement
+  > = async event => {
+    const {
+      target: { name, value }
+    } = event;
+    this.setState({
+      [name]: value
+    } as any);
+  };
   public render() {
     const { address, name, lat, lng } = this.state;
     const { history } = this.props;
@@ -80,16 +90,7 @@ class AddPlaceContainer extends React.Component<any, IState> {
     );
   }
 
-  public onInputChange: React.ChangeEventHandler<
-    HTMLInputElement
-  > = async event => {
-    const {
-      target: { name, value }
-    } = event;
-    this.setState({
-      [name]: value
-    } as any);
-  };
+
 }
 
 export default AddPlaceContainer;

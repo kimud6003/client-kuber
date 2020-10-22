@@ -36,7 +36,7 @@ const Passenger = styled.div`
 `;
 
 const Buttons = styled.div`
-  margin: 30px 0px;
+  margin: 15px 0px;
 `;
 
 const ExtendedButton = styled(Button)`
@@ -73,17 +73,17 @@ const RidePresenter: React.SFC<IProps> = ({
               </Passenger>
             </React.Fragment>
           )}
-          <Title>From</Title>
+          <Title>출발지</Title>
           <Data>{ride.pickUpAddress}</Data>
-          <Title>To</Title>
+          <Title>도착지</Title>
           <Data>{ride.dropOffAddress}</Data>
-          <Title>Price</Title>
+          <Title>가격</Title>
           <Data>{ride.price}</Data>
-          <Title>Distance</Title>
+          <Title>거리</Title>
           <Data>{ride.distance}</Data>
-          <Title>Duration</Title>
+          <Title>소요시간</Title>
           <Data>{ride.duration}</Data>
-          <Title>Status</Title>
+          <Title>사용자상태</Title>
           <Data>{ride.status}</Data>
           <Buttons>
             {ride.driver &&
@@ -103,6 +103,21 @@ const RidePresenter: React.SFC<IProps> = ({
               )}
             {ride.driver &&
               ride.driver.id === user.id &&
+              ride.status === "ACCEPTED" && (
+                <ExtendedButton
+                  value={"Cancel"}
+                  onClick={() =>
+                    updateRideFn({
+                      variables: {
+                        rideId: ride.id,
+                        status: "FINISHED"
+                      }
+                    })
+                  }
+                />
+              )}    
+            {ride.driver &&
+              ride.driver.id === user.id &&
               ride.status === "ONROUTE" && (
                 <ExtendedButton
                   value={"Finished"}
@@ -116,7 +131,6 @@ const RidePresenter: React.SFC<IProps> = ({
                   }
                 />
               )}
-
             {ride.status !== "REQUESTING" && (
               <Link to={`/chat/${ride.chatId}`}>
                 <ExtendedButton value={"Chat"} onClick={null} />

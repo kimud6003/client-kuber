@@ -19,7 +19,7 @@ const Header = styled.div`
 const SLink = styled(Link)`
   font-size: 22px;
   display: block;
-  margin-left: 15px;
+  margin-left: 20px;
   margin-bottom: 25px;
   font-weight: 400;
 `;
@@ -77,7 +77,7 @@ interface IProps {
   toggleDrivingFn: MutationFn<toggleDriving>;
 }
 
-const MenuPresenter: React.SFC<IProps> = ({
+const MenuPresenter: React.FunctionComponent<IProps> = ({
   data: { GetMyProfile: { user = null } = {} } = {},
   loading,
   toggleDrivingFn
@@ -92,8 +92,7 @@ const MenuPresenter: React.SFC<IProps> = ({
               <Link to={"/edit-account"}>
                 <Image
                   src={
-                    user.profilePhoto ||
-                    "https://lh3.googleusercontent.com/-CTwXMuZRaWw/AAAAAAAAAAI/AAAAAAAAAUg/8T5nFuIdnHE/photo.jpg"
+                    user.profilePhoto
                   }
                 />
               </Link>

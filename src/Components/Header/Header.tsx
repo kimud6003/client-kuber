@@ -3,7 +3,7 @@ import styled from "../../typed-components";
 import BackArrow from "../BackArrow";
 
 const Container = styled.header`
-  background-color: black;
+  background-color:#0E4180;
   color: white;
   display: flex;
   height: 50px;

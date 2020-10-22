@@ -1,8 +1,8 @@
 const theme = {
-  blueColor: "#3498db",
-  greenColor: "#1abc9c",
-  greyColor: "#7f8c8d",
-  yellowColor: "#f1c40f"
+  blueColor: "#6272a4",
+  greenColor: "#4267B2",
+  greyColor: "#B2B2B2",
+  yellowColor: "#bd93f9"
 };
 
 export default theme;

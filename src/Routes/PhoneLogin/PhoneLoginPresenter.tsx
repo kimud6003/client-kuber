@@ -39,11 +39,10 @@ const CountryOption = styled.option``;
 const Form = styled.form``;
 
 const Button = styled.button`
-  box-shadow: 0 18px 35px rgba(50, 50, 93, 0.1), 0 8px 15px rgba(0, 0, 0, 0.07);
-  background-color: black;
+  background-color:#4267B2;
   color: white;
   padding: 20px;
-  border-radius: 50%;
+  border-radius:50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -75,7 +74,7 @@ const PhoneLoginPresenter: React.SFC<IProps> = ({
       <title>Phone Login | Number</title>
     </Helmet>
     <BackArrowExtended backTo={"/"} />
-    <Title>Enter your mobile number</Title>
+    <Title>핸드폰 번호를 넣어주세요</Title>
     <CountrySelect
       value={countryCode}
       name={"countryCode"}
@@ -89,7 +88,7 @@ const PhoneLoginPresenter: React.SFC<IProps> = ({
     </CountrySelect>
     <Form onSubmit={onSubmit}>
       <Input
-        placeholder={"053 690 2129"}
+        placeholder={"123456789"}
         value={phoneNumber}
         name={"phoneNumber"}
         onChange={onInputChange}

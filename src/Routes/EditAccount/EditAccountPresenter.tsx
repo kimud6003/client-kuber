@@ -21,7 +21,6 @@ const ExtendedInput = styled(Input)`
 interface IProps {
   firstName: string;
   lastName: string;
-  email: string;
   profilePhoto: string;
   onSubmit: MutationFn;
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -32,7 +31,6 @@ interface IProps {
 const EditAccountPresenter: React.SFC<IProps> = ({
   firstName,
   lastName,
-  email,
   onSubmit,
   profilePhoto,
   onInputChange,
@@ -41,9 +39,9 @@ const EditAccountPresenter: React.SFC<IProps> = ({
 }) => (
   <Container>
     <Helmet>
-      <title>Edit Account | Number</title>
+      <title>이름 수정</title>
     </Helmet>
-    <Header title={"Edit Account"} backTo={"/"} />
+    <Header title={"사용자 수정"} backTo={"/"} />
     <ExtendedForm submitFn={onSubmit}>
       <PhotoInput
         uploading={uploading}
@@ -54,22 +52,15 @@ const EditAccountPresenter: React.SFC<IProps> = ({
         onChange={onInputChange}
         type={"text"}
         value={firstName}
-        placeholder={"First name"}
+        placeholder={"성"}
         name={"firstName"}
       />
       <ExtendedInput
         onChange={onInputChange}
         type={"text"}
         value={lastName}
-        placeholder={"Last name"}
+        placeholder={"이름"}
         name={"lastName"}
-      />
-      <ExtendedInput
-        onChange={onInputChange}
-        type={"email"}
-        value={email}
-        placeholder={"Email"}
-        name={"email"}
       />
       <Button onClick={null} value={loading ? "Loading" : "Update"} />
     </ExtendedForm>

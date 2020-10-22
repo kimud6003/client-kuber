@@ -1,8 +1,10 @@
 import React from "react";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import Helmet from "react-helmet";
-import BackArrow from "../../Components/BackArrow";
 import styled from "../../typed-components";
+
+
+const Footer = styled.div``;
 
 const Container = styled.div`
   margin-top: 30px;
@@ -24,11 +26,6 @@ const Icon = styled.span`
   margin-right: 10px;
 `;
 
-const BackArrowExtended = styled(BackArrow)`
-  position: absolute;
-  top: 20px;
-  left: 20px;
-`;
 
 interface IProps {
   loginCallback: (response) => void;
@@ -37,14 +34,14 @@ interface IProps {
 const SocialLoginPresenter: React.SFC<IProps> = ({ loginCallback }) => (
   <Container>
     <Helmet>
-      <title>Social Login | Nuber</title>
+      <title>페이스북 로그인</title>
     </Helmet>
-    <Title>Choose an account</Title>
-    <BackArrowExtended backTo={"/"} />
+      <Title>페이스북 로그인</Title>
+    <Footer>
     <FacebookLogin
       appId="326727678477625"
       autoLoad={false}
-      fields="name,first_name,last_name,email"
+      fields="name,first_name,last_name"
       callback={loginCallback}
       render={renderProps => (
         <Link onClick={renderProps.onClick}>
@@ -63,6 +60,7 @@ const SocialLoginPresenter: React.SFC<IProps> = ({ loginCallback }) => (
         </Link>
       )}
     />
+    </Footer>
   </Container>
 );
 

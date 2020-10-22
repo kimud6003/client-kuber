@@ -155,7 +155,6 @@ export interface updateProfile {
 export interface updateProfileVariables {
   firstName: string;
   lastName: string;
-  email: string;
   profilePhoto: string;
 }
 
@@ -487,7 +486,6 @@ export interface facebookConnect {
 export interface facebookConnectVariables {
   firstName: string;
   lastName: string;
-  email?: string | null;
   fbId: string;
 }
 
@@ -529,7 +527,6 @@ export interface userProfile_GetMyProfile_user {
   profilePhoto: string | null;
   firstName: string;
   lastName: string;
-  email: string | null;
   fullName: string | null;
   isDriving: boolean;
 }
